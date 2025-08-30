@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout | M.Store</title>
+  <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+  <link rel="stylesheet" href="css/checkout.css">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+  <header class="luxury-header">
+    <div class="container">
+      <div class="header-logo">
+        <div class="cool-m-logo">M</div>
+        <div class="logo-text">
+          <h1 class="header-h1">M.Store</h1>
+          <p class="header-p">Complete Your Purchase</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container checkout-container">
+    <div class="checkout-grid">
+      <section class="checkout-form">
+        <h2>Payment Information</h2>
+        <form id="paymentForm">
+          <div class="form-group">
+            <label for="cardNumber">Card Number</label>
+            <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="expiryDate">Expiry Date</label>
+              <input type="text" id="expiryDate" placeholder="MM/YY" required>
+            </div>
+            <div class="form-group">
+              <label for="cvv">CVV</label>
+              <input type="text" id="cvv" placeholder="123" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="cardName">Name on Card</label>
+            <input type="text" id="cardName" required>
+          </div>
+
+          <h3>Billing Address</h3>
+          <div class="form-group">
+            <label for="address">Street Address</label>
+            <input type="text" id="address" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="city">City</label>
+              <input type="text" id="city" required>
+            </div>
+            <div class="form-group">
+              <label for="zip">ZIP Code</label>
+              <input type="text" id="zip" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="country">Country</label>
+            <select id="country" required>
+              <option value="">Select Country</option>
+              <option value="NG">Nigeria</option>
+              <option value="US">United States</option>
+              <option value="UK">United Kingdom</option>
+              <option value="CA">Canada</option>
+              <option value="AU">Australia</option>
+              <option value="DE">Germany</option>
+              <option value="FR">France</option>
+              <option value="IT">Italy</option>
+              <option value="ES">Spain</option>
+              <option value="NL">Netherlands</option>
+              <option value="BR">Brazil</option>
+              <option value="MX">Mexico</option>
+              <option value="IN">India</option>
+              <option value="CN">China</option>
+              <option value="JP">Japan</option>
+              <option value="KR">South Korea</option>
+              <option value="ZA">South Africa</option>
+              <option value="EG">Egypt</option>
+              <option value="KE">Kenya</option>
+              <option value="GH">Ghana</option>
+            </select>
+          </div>
+
+          <button type="submit" class="luxury-btn">Complete Purchase</button>
+        </form>
+      </section>
+
+      <section class="order-summary">
+        <h2>Your Order</h2>
+        <div class="summary-items" id="summaryItems">
+          <!-- Cart items will be loaded here -->
+        </div>
+        <div class="summary-totals">
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span id="subtotal">$0.00</span>
+          </div>
+          <div class="summary-row">
+            <span>Shipping</span>
+            <span>FREE</span>
+          </div>
+          <div class="summary-row total">
+            <span>Total</span>
+            <span id="total">$0.00</span>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="luxury-footer">
+    
+  </footer>
+
+  <div id="successModal" class="modal">
+    <div class="modal-content luxury-modal">
+      <h3>Order Confirmed!</h3>
+      <p>Your payment has been processed successfully.</p>
+      <p>Your funds will be held pending delivery confirmation.</p>
+      <p>If items aren't delivered within 2 weeks, your payment will be refunded automatically.</p>
+      <a href="orders.html" class="luxury-btn">View Order</a>
+    </div>
+  </div>
+
+  <script src="js/cart.js"></script>
+  <script src="js/notifications.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const cartItems = getCartItems();
+      const summaryItems = document.getElementById('summaryItems');
+      const subtotalEl = document.getElementById('subtotal');
+      const totalEl = document.getElementById('total');
+
+      if (cartItems.length === 0) {
+        summaryItems.innerHTML = '<p>Your cart is empty</p>';
+        window.location.href = 'user-dashboard.html';
+        return;
+      }
+
+      // Display cart items
+      
+      summaryItems.innerHTML = cartItems.map(item => {
+        const price = typeof item.price === 'string'
+          ? parseFloat(item.price.replace(/[^\d.]/g, ''))
+          : item.price;
+        const itemTotal = price * item.quantity;
+        
+        return `
+        <div class="summary-item">
+            <div class="item-image" style="background-image: url('${item.image}')"></div>
+            <div class="item-details">
+                <h4>${item.name}</h4>
+                <p>₦${price.toLocaleString()} x ${item.quantity}</p>
+            </div>
+            <div class="item-total">
+                ₦${itemTotal.toLocaleString()}
+            </div>
+        </div>
+        `;
+      }).join('');
+
+      // Calculate totals
+      const subtotal = cartItems.reduce((total, item) => {
+        const price = typeof item.price === 'string'
+          ? parseFloat(item.price.replace(/[^\d.]/g, ''))
+          : item.price;
+        return total + (price * item.quantity);
+      }, 0);
+      const total = subtotal; // No taxes/shipping in this demo
+
+      subtotalEl.textContent = `₦${subtotal.toLocaleString()}`;
+      totalEl.textContent = `₦${total.toLocaleString()}`;
+
+      // Handle form submission
+      document.getElementById('paymentForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        // Get delivery address
+        const deliveryAddress = {
+          street: document.getElementById('address').value,
+          city: document.getElementById('city').value,
+          zip: document.getElementById('zip').value,
+          country: document.getElementById('country').value
+        };
+
+        // Create fake order
+        const order = {
+          id: Date.now(),
+          date: new Date().toISOString(),
+          items: cartItems,
+          total: total,
+          status: 'pending',
+          deliveryAddress: deliveryAddress,
+          refundDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString() // 2 weeks from now
+        };
+
+        // Save order
+        let orders = JSON.parse(localStorage.getItem('orders')) || [];
+        orders.push(order);
+        localStorage.setItem('orders', JSON.stringify(orders));
+
+        // Create notifications for entrepreneurs
+        createOrderNotifications(cartItems, order.id, deliveryAddress);
+
+        // Clear cart
+        clearCart();
+
+        // Show success modal
+        const modal = document.getElementById('successModal');
+        modal.style.display = 'flex';
+        
+        // Add click outside to close modal
+        modal.addEventListener('click', function(e) {
+          if (e.target === modal) {
+            modal.style.display = 'none';
+            window.location.href = 'orders.html';
+          }
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

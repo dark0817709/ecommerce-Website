@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard | M.Store</title>
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/user.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="dashboard-header">
+        <div class="logo-container">
+            <div class="cool-m-logo">M</div>
+            <div class="logo-text">
+                <span class="header-h1">M.Store</span>
+                <span class="header-p">Curated Luxury Interiors</span>
+            </div>
+        </div>
+
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-input" placeholder="Search for products...">
+        </div>
+
+        <div class="user-actions">
+            <button class="icon-btn desktop-only">
+                <i class="far fa-heart"></i>
+            </button>
+
+            <button class="icon-btn desktop-only" id="cart" onclick="showCartModal()">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="badge">0</span>
+            </button>
+
+            <button class="icon-btn desktop-only">
+                <i class="far fa-bell"></i>
+                <span class="badge">0</span>
+            </button>
+
+            <div class="user-profile">
+                <div class="user-avatar">US</div>
+                <span class="user-name">User</span>
+            </div>
+        </div>
+        
+        <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <!-- Main Content -->
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h3 class="sidebar-title">Dashboard</h3>
+                <button class="mobile-close-btn" onclick="closeMobileMenu()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <!-- Mobile Actions -->
+            <div class="mobile-actions">
+                <button class="mobile-action-btn" onclick="showCartModal(); closeMobileMenu()">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Cart</span>
+                    <span class="badge mobile-badge">0</span>
+                </button>
+                <button class="mobile-action-btn">
+                    <i class="far fa-bell"></i>
+                    <span>Notifications</span>
+                    <span class="badge mobile-badge">5</span>
+                </button>
+                <button class="mobile-action-btn">
+                    <i class="far fa-heart"></i>
+                    <span>Wishlist</span>
+                </button>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li><a href="#" class="active" onclick="closeMobileMenu()"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="orders.html" onclick="closeMobileMenu()"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
+                <li><a href="#" onclick="closeMobileMenu()"><i class="far fa-heart"></i> Wishlist</a></li>
+                <li><a href="orders.html" onclick="closeMobileMenu()"><i class="fas fa-history"></i> Order History</a></li>
+                <li><a href="#" onclick="closeMobileMenu()"><i class="fas fa-tag"></i> My Coupons</a></li>
+                <li><a href="#" onclick="closeMobileMenu()"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="pages/FAQ.html" onclick="closeMobileMenu()"><i class="fas fa-question-circle"></i> Help Center</a></li>
+                <li><a href="main.html" onclick="closeMobileMenu()"><i class="fas fa-sign-out-alt" id="user-logout"></i> Logout</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Welcome Banner -->
+            <div class="welcome-banner">
+                <div class="welcome-text">
+                    <h2>Welcome back, User!</h2>
+                    <p>Discover our latest collection of luxury interior products</p>
+                </div>
+                <button class="banner-cta">Shop Now</button>
+            </div>
+
+            <!-- Categories -->
+            <div class="categories">
+                <button class="category-btn active">All Products</button>
+                <button class="category-btn">Furniture</button>
+                <button class="category-btn">Lighting</button>
+                <button class="category-btn">Decor</button>
+                <button class="category-btn">Textiles</button>
+                <button class="category-btn">Kitchen</button>
+                <button class="category-btn">Bath</button>
+                <button class="category-btn">Outdoor</button>
+            </div>
+
+            <!-- Featured Products -->
+            <div class="section-title">
+                <h3>Featured Products</h3>
+                <a href="#" class="view-all">View All</a>
+            </div>
+
+            <div class="products-grid" id="featured-products">
+
+            </div>
+
+            <!-- New Arrivals -->
+            <div class="section-title">
+                <h3>New Arrivals</h3>
+                <a href="#" class="view-all">View All</a>
+            </div>
+
+            <div class="products-grid" id="new-products">
+
+            </div>
+
+            <!-- Top Sellers -->
+            <div class="section-title">
+                <h3>Top Sellers</h3>
+                <a href="#" class="view-all">View All</a>
+            </div>
+
+            <div class="products-grid" id="top-products">
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="dashboard-footer">
+        <div class="footer-links">
+            <a href="#">About Us</a>
+            <a href="#">Contact</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Help Center</a>
+        </div>
+        <p class="copyright">© 2023 M.Store. All rights reserved.</p>
+    </footer>
+
+
+    <script>
+
+        const products = [
+            {
+                id: 1,
+                name: "Modern Luxury Sofa",
+                price: "₦249,999.99",
+                image: "../images/sofa.avif",
+                seller: "EliteInteriors",
+                badge: "New"
+            },
+            {
+                id: 2,
+                name: "Minimalist Desk Lamp",
+                price: "₦7,999.99",
+                image: "../images/lamp.avif",
+                seller: "LightDesigns",
+                badge: "Popular"
+            },
+            {
+                id: 3,
+                name: "Velvet Dining Chairs",
+                price: "₦120,000",
+                image: "../images/dining-chair.webp",
+                seller: "HomeElegance",
+                badge: "Sale"
+            },
+            {
+                id: 4,
+                name: "Decorative Wall Mirror",
+                price: "₦14,999.99",
+                image: "../images/mirror1.jpg",
+                seller: "ReflectionsCo",
+                badge: "Trending"
+            },
+            {
+                id: 5,
+                name: "Scandinavian Coffee Table",
+                price: "₦27,999.99",
+                image: "../images/coffe.jpg",
+                seller: "NordicDesigns",
+                badge: "New"
+            },
+            {
+                id: 6,
+                name: "Bohemian Throw Pillows",
+                price: "₦2,399.99",
+                image: "../images/pillow.jpg",
+                seller: "TextileArtisans",
+                badge: "Sale"
+            },
+            {
+                id: 7,
+                name: "Industrial Pendant Light",
+                price: "₦19,999.99",
+                image: "../images/lamb.jpg",
+                seller: "UrbanLights",
+                badge: "Popular"
+            },
+            {
+                id: 8,
+                name: "Executive Office Chair",
+                price: "₦150,000",
+                image: "../images/office-chair.jpg",
+                seller: "WorkspaceElite",
+                badge: "New"
+            }
+        ];
+
+        // Function to render products
+
+        function renderProducts(productsArray, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+
+            productsArray.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.style.cursor = 'pointer';
+                productCard.innerHTML = `
+            <div class="product-image" style="background-image: url('${product.image}')">
+                ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
+                <button class="wishlist-btn" onclick="event.stopPropagation(); toggleWishlist(${product.id}, this)">
+                    <i class="far fa-heart"></i>
+                </button>
+            </div>
+            <div class="product-info">
+                <h4 class="product-title">${product.name}</h4>
+                <p class="product-seller">By ${product.seller}</p>
+                <div class="product-price">
+                    <span class="price">${product.price}</span>
+                    <button class="add-to-cart" onclick="event.stopPropagation(); addToCart(${JSON.stringify(product).replace(/"/g, '&quot;')})">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+          `;
+
+                // Make entire card clickable to view product details
+                productCard.addEventListener('click', function () {
+                    viewProductDetails(product);
+                });
+
+                container.appendChild(productCard);
+            });
+        }
+
+        // View product details function
+        function viewProductDetails(product) {
+            // Store product data for detail view
+            localStorage.setItem('selectedProduct', JSON.stringify(product));
+
+            // Create a simple product detail modal or redirect
+            showProductModal(product);
+        }
+
+        // Show product details in a modal
+        function showProductModal(product) {
+            // Create modal HTML
+            const modalHTML = `
+                <div class="product-modal" id="productModal" style="
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.8);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 1000;
+                ">
+                    <div class="modal-content" style="
+                        background: white;
+                        padding: 30px;
+                        border-radius: 10px;
+                        max-width: 500px;
+                        width: 90%;
+                        max-height: 80vh;
+                        overflow-y: auto;
+                    ">
+                        <button class="close-modal" onclick="closeProductModal()" style="
+                            float: right;
+                            background: none;
+                            border: none;
+                            font-size: 24px;
+                            cursor: pointer;
+                            color: #999;
+                        ">&times;</button>
+                        
+                        <div class="product-detail">
+                            <img src="${product.image}" alt="${product.name}" style="
+                                width: 100%;
+                                height: 250px;
+                                object-fit: cover;
+                                border-radius: 8px;
+                                margin-bottom: 20px;
+                            ">
+                            <h2 style="color: #333; margin-bottom: 10px;">${product.name}</h2>
+                            <p style="color: #666; margin-bottom: 10px;">By ${product.seller}</p>
+                            <p style="font-size: 24px; color: #e74c3c; font-weight: bold; margin-bottom: 20px;">${product.price}</p>
+                            
+                            <div style="margin-bottom: 20px;">
+                                <h4>Product Description</h4>
+                                <p style="color: #666; line-height: 1.6;">
+                                    This beautiful ${product.name.toLowerCase()} is perfect for modern homes. 
+                                    Crafted with attention to detail and quality materials.
+                                </p>
+                            </div>
+                            
+                            <div style="margin-bottom: 20px;">
+                                <h4>Delivery Information</h4>
+                                <p style="color: #666;">
+                                    • Free delivery within Lagos<br>
+                                    • 7-14 business days delivery<br>
+                                    • Money held until delivery confirmation
+                                </p>
+                            </div>
+                            
+                            <div style="display: flex; gap: 10px;">
+                                <button onclick="addToCart(${JSON.stringify(product).replace(/"/g, '&quot;')}); closeProductModal();" style="
+                                    flex: 1;
+                                    background: #e74c3c;
+                                    color: white;
+                                    border: none;
+                                    padding: 15px;
+                                    border-radius: 5px;
+                                    cursor: pointer;
+                                    font-size: 16px;
+                                ">Add to Cart</button>
+                                
+                                <button onclick="buyNow(${JSON.stringify(product).replace(/"/g, '&quot;')})" style="
+                                    flex: 1;
+                                    background: #27ae60;
+                                    color: white;
+                                    border: none;
+                                    padding: 15px;
+                                    border-radius: 5px;
+                                    cursor: pointer;
+                                    font-size: 16px;
+                                ">Buy Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Add modal to page
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close product modal
+        function closeProductModal() {
+            const modal = document.getElementById('productModal');
+            if (modal) {
+                modal.remove();
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Show cart modal
+        function showCartModal() {
+            const cartItems = JSON.parse(localStorage.getItem('mstore_cart')) || [];
+            
+            const modalHTML = `
+                <div class="cart-modal" id="cartModal" style="
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.8);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 1000;
+                ">
+                    <div class="modal-content" style="
+                        background: white;
+                        padding: 30px;
+                        border-radius: 10px;
+                        max-width: 600px;
+                        width: 90%;
+                        max-height: 80vh;
+                        overflow-y: auto;
+                    ">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                            <h2 style="margin: 0;">Shopping Cart</h2>
+                            <button onclick="closeCartModal()" style="
+                                background: none;
+                                border: none;
+                                font-size: 24px;
+                                cursor: pointer;
+                                color: #999;
+                            ">&times;</button>
+                        </div>
+                        
+                        <div id="cartItemsList">
+                            ${cartItems.length === 0 ? '<p>Your cart is empty</p>' : ''}
+                        </div>
+                        
+                        <div id="cartTotal" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee;">
+                            <!-- Total will be calculated here -->
+                        </div>
+                        
+                        <div style="display: flex; gap: 10px; margin-top: 20px;">
+                            <button onclick="closeCartModal()" style="
+                                flex: 1;
+                                background: #ccc;
+                                color: #333;
+                                border: none;
+                                padding: 15px;
+                                border-radius: 5px;
+                                cursor: pointer;
+                            ">Continue Shopping</button>
+                            
+                            <button onclick="proceedToCheckout()" style="
+                                flex: 1;
+                                background: #27ae60;
+                                color: white;
+                                border: none;
+                                padding: 15px;
+                                border-radius: 5px;
+                                cursor: pointer;
+                                ${cartItems.length === 0 ? 'opacity: 0.5; cursor: not-allowed;' : ''}
+                            " ${cartItems.length === 0 ? 'disabled' : ''}>Checkout</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+            document.body.style.overflow = 'hidden';
+            
+            renderCartItems();
+        }
+
+        // Render cart items
+        function renderCartItems() {
+            const cartItems = JSON.parse(localStorage.getItem('mstore_cart')) || [];
+            const container = document.getElementById('cartItemsList');
+            const totalContainer = document.getElementById('cartTotal');
+            
+            if (cartItems.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #666;">Your cart is empty</p>';
+                totalContainer.innerHTML = '';
+                return;
+            }
+            
+            let total = 0;
+            
+            container.innerHTML = cartItems.map(item => {
+                const price = typeof item.price === 'string' 
+                    ? parseFloat(item.price.replace(/[^\d.]/g, '')) 
+                    : item.price;
+                const itemTotal = price * item.quantity;
+                total += itemTotal;
+                
+                return `
+                    <div style="display: flex; align-items: center; padding: 15px; border-bottom: 1px solid #eee;">
+                        <img src="${item.image}" alt="${item.name}" style="
+                            width: 60px;
+                            height: 60px;
+                            object-fit: cover;
+                            border-radius: 5px;
+                            margin-right: 15px;
+                        ">
+                        <div style="flex: 1;">
+                            <h4 style="margin: 0 0 5px 0; font-size: 14px;">${item.name}</h4>
+                            <p style="margin: 0; color: #666; font-size: 12px;">₦${price.toLocaleString()}</p>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <button onclick="updateCartQuantity(${item.id}, ${item.quantity - 1})" style="
+                                width: 30px;
+                                height: 30px;
+                                border: 1px solid #ddd;
+                                background: white;
+                                cursor: pointer;
+                                border-radius: 3px;
+                            ">-</button>
+                            <span style="min-width: 20px; text-align: center;">${item.quantity}</span>
+                            <button onclick="updateCartQuantity(${item.id}, ${item.quantity + 1})" style="
+                                width: 30px;
+                                height: 30px;
+                                border: 1px solid #ddd;
+                                background: white;
+                                cursor: pointer;
+                                border-radius: 3px;
+                            ">+</button>
+                        </div>
+                        <div style="margin-left: 15px; min-width: 80px; text-align: right;">
+                            <p style="margin: 0; font-weight: bold;">₦${itemTotal.toLocaleString()}</p>
+                            <button onclick="removeFromCart(${item.id})" style="
+                                background: none;
+                                border: none;
+                                color: #e74c3c;
+                                cursor: pointer;
+                                font-size: 12px;
+                                margin-top: 5px;
+                            ">Remove</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            totalContainer.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-size: 18px; font-weight: bold;">Total: ₦${total.toLocaleString()}</span>
+                    <span style="color: #666; font-size: 14px;">${cartItems.length} item(s)</span>
+                </div>
+            `;
+        }
+
+        // Update cart quantity
+        function updateCartQuantity(productId, newQuantity) {
+            let cart = JSON.parse(localStorage.getItem('mstore_cart')) || [];
+            
+            if (newQuantity <= 0) {
+                cart = cart.filter(item => item.id !== productId);
+            } else {
+                const item = cart.find(item => item.id === productId);
+                if (item) {
+                    item.quantity = newQuantity;
+                }
+            }
+            
+            localStorage.setItem('mstore_cart', JSON.stringify(cart));
+            updateCartCount();
+            renderCartItems();
+        }
+
+        // Remove from cart
+        function removeFromCart(productId) {
+            let cart = JSON.parse(localStorage.getItem('mstore_cart')) || [];
+            cart = cart.filter(item => item.id !== productId);
+            localStorage.setItem('mstore_cart', JSON.stringify(cart));
+            updateCartCount();
+            renderCartItems();
+        }
+
+        // Close cart modal
+        function closeCartModal() {
+            const modal = document.getElementById('cartModal');
+            if (modal) {
+                modal.remove();
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Proceed to checkout
+        function proceedToCheckout() {
+            const cartItems = JSON.parse(localStorage.getItem('mstore_cart')) || [];
+            if (cartItems.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+            closeCartModal();
+            window.location.href = 'checkout.html';
+        }
+
+        // Update cart count
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('mstore_cart')) || [];
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const badge = document.querySelector('.badge');
+            if (badge) {
+                badge.textContent = totalItems;
+            }
+        }
+
+        // Buy now function
+        function buyNow(product) {
+            // Clear existing cart and add only this product
+            const buyNowItem = { ...product, quantity: 1 };
+            localStorage.setItem('mstore_cart', JSON.stringify([buyNowItem]));
+            closeProductModal();
+            // Redirect to checkout
+            window.location.href = 'checkout.html';
+        }
+        // Load products from entrepreneur uploads
+        function loadAllProducts() {
+            // Get products added by entrepreneurs
+            const entrepreneurProducts = JSON.parse(localStorage.getItem('mstore_products')) || [];
+            console.log('Entrepreneur products loaded:', entrepreneurProducts);
+
+            // Ensure entrepreneur products have seller info for cart
+            const processedEntrepreneurProducts = entrepreneurProducts.map(product => ({
+                ...product,
+                seller: product.seller || product.sellerEmail || 'Unknown',
+                // Ensure price is properly formatted for display
+                price: product.price || '₦0'
+            }));
+
+            // Combine with static products
+            const allProducts = [...products, ...processedEntrepreneurProducts];
+
+            // Remove duplicates based on ID
+            const uniqueProducts = allProducts.filter((product, index, self) =>
+                index === self.findIndex(p => p.id === product.id)
+            );
+
+            console.log('All unique products:', uniqueProducts);
+            return uniqueProducts;
+        }
+
+        // Add to cart functionality from user.js
+        function addToCart(product) {
+            let cart = JSON.parse(localStorage.getItem('mstore_cart')) || [];
+            const existingItem = cart.find(item => item.id === product.id);
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+
+            localStorage.setItem('mstore_cart', JSON.stringify(cart));
+            updateCartCount();
+            showNotification('Product added to cart!');
+            return true;
+        }
+
+        // Show notification
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed; top: 20px; right: 20px; background: #28a745;
+                color: white; padding: 15px 20px; border-radius: 5px; z-index: 1000;
+                font-weight: 500; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            `;
+            document.body.appendChild(notification);
+            setTimeout(() => document.body.removeChild(notification), 3000);
+        }
+
+        // Handle wishlist functionality
+        function toggleWishlist(productId, element) {
+            const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            const index = wishlist.indexOf(productId);
+
+            if (index > -1) {
+                wishlist.splice(index, 1);
+                element.innerHTML = '<i class="far fa-heart"></i>';
+            } else {
+                wishlist.push(productId);
+                element.innerHTML = '<i class="fas fa-heart"></i>';
+            }
+
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        }
+
+        function toggleMobileMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            sidebar.classList.toggle('mobile-open');
+            toggle.classList.toggle('active');
+        }
+
+        function closeMobileMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            sidebar.classList.remove('mobile-open');
+            toggle.classList.remove('active');
+        }
+
+
+
+        // Update mobile cart badge
+        function updateMobileCartCount() {
+            const cart = JSON.parse(localStorage.getItem('mstore_cart')) || [];
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const mobileBadge = document.querySelector('.mobile-badge');
+            if (mobileBadge) {
+                mobileBadge.textContent = totalItems;
+            }
+        }
+
+        // Show welcome modal for new users
+        function showWelcomeModal() {
+            const modalHTML = `
+                <div class="welcome-modal" id="welcomeModal" style="
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.8);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 1000;
+                    animation: fadeIn 0.3s ease;
+                ">
+                    <div class="modal-content" style="
+                        background: linear-gradient(135deg, #091f36, #0f2862);
+                        padding: 40px;
+                        border-radius: 15px;
+                        max-width: 500px;
+                        width: 90%;
+                        text-align: center;
+                        color: white;
+                        border: 2px solid #D4AF37;
+                        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+                    ">
+                        <div style="margin-bottom: 20px;">
+                            <i class="fas fa-gift" style="font-size: 3rem; color: #D4AF37; margin-bottom: 15px;"></i>
+                            <h2 style="color: #D4AF37; margin: 0 0 10px 0; font-family: 'Playfair Display', serif;">Welcome to M.Store!</h2>
+                            <p style="margin: 0; opacity: 0.9;">Your premium marketplace experience starts here</p>
+                        </div>
+                        
+                        <div style="background: rgba(212, 175, 55, 0.1); padding: 25px; border-radius: 10px; margin: 20px 0; border: 1px solid rgba(212, 175, 55, 0.3);">
+                            <h3 style="color: #D4AF37; margin: 0 0 15px 0;">🎉 Special Welcome Offer!</h3>
+                            <p style="font-size: 18px; margin: 0 0 10px 0; font-weight: bold;">Get FREE SHIPPING on your first 5 orders!</p>
+                            <p style="margin: 0; font-size: 14px; opacity: 0.8;">No minimum purchase required • Valid for 30 days</p>
+                        </div>
+                        
+                        <div style="margin: 25px 0;">
+                            <p style="margin: 0 0 15px 0;">✨ Discover premium products from verified sellers</p>
+                            <p style="margin: 0 0 15px 0;">🚚 Fast & secure delivery nationwide</p>
+                            <p style="margin: 0;">💎 Exclusive deals and early access to new arrivals</p>
+                        </div>
+                        
+                        <div style="display: flex; gap: 15px; margin-top: 30px;">
+                            <button onclick="closeWelcomeModal()" style="
+                                flex: 1;
+                                background: transparent;
+                                color: #D4AF37;
+                                border: 2px solid #D4AF37;
+                                padding: 12px 20px;
+                                border-radius: 5px;
+                                cursor: pointer;
+                                font-size: 16px;
+                                transition: all 0.3s;
+                            ">Maybe Later</button>
+                            
+                            <button onclick="startShopping()" style="
+                                flex: 1;
+                                background: #D4AF37;
+                                color: #091f36;
+                                border: none;
+                                padding: 12px 20px;
+                                border-radius: 5px;
+                                cursor: pointer;
+                                font-size: 16px;
+                                font-weight: bold;
+                                transition: all 0.3s;
+                            ">Start Shopping Now!</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Close welcome modal
+        function closeWelcomeModal() {
+            const modal = document.getElementById('welcomeModal');
+            if (modal) {
+                modal.remove();
+                document.body.style.overflow = 'auto';
+            }
+            localStorage.setItem('mstore_welcome_shown', 'true');
+        }
+        
+        // Start shopping function
+        function startShopping() {
+            closeWelcomeModal();
+            document.querySelector('.categories .category-btn').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Render products on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const allProducts = loadAllProducts();
+            
+            if (allProducts.length > 0) {
+                renderProducts(allProducts.slice(0, 4), 'featured-products');
+                renderProducts(allProducts.slice(-4), 'new-products');
+                renderProducts(allProducts.slice(0, 4), 'top-products');
+            } else {
+                renderProducts(products.slice(0, 4), 'featured-products');
+                renderProducts(products.slice(-4), 'new-products');
+                renderProducts(products.slice(0, 4), 'top-products');
+            }
+            
+            updateCartCount();
+            
+            // Show welcome modal for new users
+            const welcomeShown = localStorage.getItem('mstore_welcome_shown');
+            if (!welcomeShown) {
+                setTimeout(() => {
+                    showWelcomeModal();
+                }, 1000); // Show after 1 second
+            }
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Orders | M.Store</title>
+  <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap"
+    rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    :root {
+    --gold: #D4AF37;
+    --blue: #0f2862;
+    --purple: #091f36;
+    --font: Aileron, sans-serif;
+    }
+
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #f8f9fa;
+      color: var(--blue);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1325px;
+      margin: 0 none;
+      padding: none;
+    }
+
+    /* Header Styles */
+    .main-header {
+      background: linear-gradient(135deg, #0f2862  0%, #D4AF37 124%);
+      color: white;
+      padding: 20px 0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .cool-m-logo {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, #D4AF37, #B8941F);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: white;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .cool-m-logo:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+    }
+
+    
+
+    .header-h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--gold);
+    }
+
+    .header-p {
+      font-size: 14px;
+      opacity: 0.8;
+      
+      
+    }
+
+    .main-nav .nav-list {
+      display: flex;
+      list-style: none;
+      gap: 3.5rem;
+    }
+
+    .main-nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      padding: 8px 0;
+      position: relative;
+    }
+
+    .main-nav a:hover,
+    .main-nav a.active {
+      color: #d4af37;
+    }
+
+    .main-nav a.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: #d4af37;
+    }
+
+    .reg {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .cart-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background-color: #e74c3c;
+      color: white;
+      font-size: 12px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #logoutBtn {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: 8px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    #logoutBtn:hover {
+      background: var(--gold);
+    }
+
+    /* Orders Container */
+    .orders-container {
+      padding: 40px 0;
+      min-height: 70vh;
+       
+    }
+
+    .orders-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+     
+    }
+
+    .orders-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      color: #2c3e50;
+    }
+
+    .orders-filter select {
+      padding: 10px 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background-color: white;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    /* Orders Grid */
+    .orders-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 25px;
+    }
+
+    .no-orders {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px 20px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .no-orders i {
+      font-size: 60px;
+      color: #ddd;
+      margin-bottom: 20px;
+    }
+
+    .no-orders p {
+      font-size: 18px;
+      margin-bottom: 25px;
+      color: #7f8c8d;
+    }
+
+    .luxury-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #d4af37 0%, #b8941a 100%);
+      color: white;
+      padding: 12px 25px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .luxury-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+    }
+
+    /* Order Card */
+    .order-card {
+      background-color: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .order-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    .order-header {
+      padding: 20px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .order-meta {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .order-id {
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 5px;
+    }
+
+    .order-date {
+      font-size: 14px;
+      color: #7f8c8d;
+    }
+
+    .order-status {
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .order-status.pending {
+      background-color: #ffeaa7;
+      color: #d35400;
+    }
+
+    .order-status.delivered {
+      background-color: #d1f7c4;
+      color: #27ae60;
+    }
+
+    .order-status.cancelled {
+      background-color: #ffcfcc;
+      color: #c0392b;
+    }
+
+    .order-items {
+      padding: 20px;
+    }
+
+    .order-item {
+      display: flex;
+      margin-bottom: 15px;
+      align-items: center;
+    }
+
+    .order-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .item-image {
+      width: 60px;
+      height: 60px;
+      border-radius: 4px;
+      background-size: cover;
+      background-position: center;
+      flex-shrink: 0;
+      margin-right: 15px;
+    }
+
+    .item-details h4 {
+      font-size: 15px;
+      margin-bottom: 5px;
+      color: #2c3e50;
+    }
+
+    .item-details p {
+      font-size: 14px;
+      color: #7f8c8d;
+    }
+
+    .more-items {
+      text-align: center;
+      padding: 10px;
+      font-size: 14px;
+      color: #7f8c8d;
+      background-color: #f8f9fa;
+      border-radius: 4px;
+      margin-top: 10px;
+    }
+
+    .order-footer {
+      padding: 20px;
+      background-color: #f8f9fa;
+      border-top: 1px solid #eee;
+    }
+
+    .order-total {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      font-weight: 600;
+      font-size: 18px;
+      color: #2c3e50;
+    }
+
+    .refund-info {
+      display: flex;
+      align-items: center;
+      background-color: #e8f4fd;
+      padding: 12px;
+      border-radius: 4px;
+      margin-bottom: 15px;
+      font-size: 13px;
+    }
+
+    .refund-info i {
+      color: #3498db;
+      margin-right: 10px;
+      font-size: 16px;
+    }
+
+    .order-details-btn {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #2c3e50 0%, #1a1f25 100%);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .order-details-btn:hover {
+      background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+    }
+
+    /* Footer */
+    .main-footer {
+      background-color:var(--blue);
+      color: white;
+      padding: 40px 0;
+      margin-top: 60px;
+      text-align: center;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .orders-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+
+      .orders-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="main-header">
+    <div class="container">
+      <div class="header-content">
+        <div class="header-logo">
+          <div class="cool-m-logo">M</div>
+          <div class="logo-text">
+            <h1 class="header-h1">M.Store</h1>
+            <p class="header-p">Order History</p>
+          </div>
+        </div>
+
+        <nav class="main-nav">
+          <ul class="nav-list">
+            <li class="nav-item"><a href="user-dashboard.html">Shop</a></li>
+            <li class="nav-item"><a href="orders.html" class="active">My Orders</a></li>
+            <li class="nav-item"><a href="#">Wishlist</a></li>
+          </ul>
+        </nav>
+
+        <ul class="reg">
+          <button id="cartBtn" class="cart-btn">
+            <i class="fas fa-shopping-bag"></i>
+            <span class="cart-count">0</span>
+          </button>
+          <button id="logoutBtn">Logout</button>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <main class="orders-container">
+    <div class="container">
+      <div class="orders-header">
+        <h2>Your Orders</h2>
+        <div class="orders-filter">
+          <select id="statusFilter">
+            <option value="all">All Orders</option>
+            <option value="pending">Pending</option>
+            <option value="delivered">Delivered</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="orders-grid" id="ordersGrid">
+        
+        <div class="no-orders">
+          <i class="fas fa-box-open"></i>
+          <p>You haven't placed any orders yet</p>
+          <a href="user-dashboard.html" class="luxury-btn">Start Shopping</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="main-footer">
+    <div class="container">
+      <p>&copy; 2023 M.Store. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/cart.js"></script>
+  <script>
+    // Clear any fake/demo orders that might exist
+    function clearFakeOrders() {
+      const orders = JSON.parse(localStorage.getItem('orders')) || [];
+      // Only keep orders that were created through actual checkout process
+      // Remove any orders that might be demo/fake data
+      const realOrders = orders.filter(order => {
+        // Check if order has proper structure from checkout
+        return order.id && order.date && order.items && order.total && order.deliveryAddress;
+      });
+      localStorage.setItem('orders', JSON.stringify(realOrders));
+    }
+
+    // Get real orders from localStorage (created during checkout)
+    function getUserOrders() {
+      return JSON.parse(localStorage.getItem('orders')) || [];
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      // Check authentication
+      const currentUser = JSON.parse(localStorage.getItem('mstore_current_user'));
+      if (!currentUser) {
+        window.location.href = 'main.html';
+        return;
+      }
+
+      // Clear any fake/demo orders for clean user experience
+      clearFakeOrders();
+      
+      // Clear any leftover cart data if coming from successful order
+      if (window.location.hash === '#order-success' || document.getElementById('successModal')) {
+        localStorage.removeItem('mstore_cart');
+        window.location.hash = '';
+        // Hide any success modals that might be showing
+        const successModal = document.getElementById('successModal');
+        if (successModal) {
+          successModal.style.display = 'none';
+        }
+      }
+      
+      // Load orders
+      loadOrders();
+      updateCartCount();
+
+      // Event listeners
+      document.getElementById('logoutBtn').addEventListener('click', logout);
+      document.getElementById('cartBtn').addEventListener('click', goToCart);
+      document.getElementById('statusFilter').addEventListener('change', filterOrders);
+    });
+
+    function loadOrders() {
+      const orders = getUserOrders();
+      const ordersGrid = document.getElementById('ordersGrid');
+
+      if (orders.length === 0) {
+        ordersGrid.innerHTML = `
+          <div class="no-orders">
+            <i class="fas fa-box-open"></i>
+            <p>You haven't placed any orders yet</p>
+            <a href="user-dashboard.html" class="luxury-btn">Start Shopping</a>
+          </div>
+        `;
+        return;
+      }
+
+      ordersGrid.innerHTML = orders.map(order => {
+        const total = order.total || 0;
+        const orderDate = new Date(order.date);
+        const daysSinceOrder = Math.floor((new Date() - orderDate) / (1000 * 60 * 60 * 24));
+        
+        // Auto-update status based on time
+        let currentStatus = order.status;
+        if (currentStatus === 'pending' && daysSinceOrder >= 7) {
+          currentStatus = 'delivered';
+          updateOrderStatus(order.id, 'delivered');
+        }
+
+        return `
+          <div class="order-card" data-status="${currentStatus}">
+            <div class="order-header">
+              <div class="order-meta">
+                <span class="order-id">Order #${order.id}</span>
+                <span class="order-date">${orderDate.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        })}</span>
+              </div>
+              <div class="order-status ${currentStatus}">
+                ${currentStatus.charAt(0).toUpperCase() + currentStatus.slice(1)}
+              </div>
+            </div>
+            
+            <div class="order-items">
+              ${order.items.slice(0, 3).map(item => {
+          const itemPrice = typeof item.price === 'string'
+            ? parseFloat(item.price.replace(/[^\d.]/g, ''))
+            : item.price;
+
+          return `
+                  <div class="order-item">
+                    <div class="item-image" style="background-image: url('${item.image || item.imageUrl || 'https://via.placeholder.com/150'}')"></div>
+                    <div class="item-details">
+                      <h4>${item.name}</h4>
+                      <p>₦${itemPrice.toLocaleString('en-NG')} x ${item.quantity}</p>
+                    </div>
+                  </div>
+                `;
+        }).join('')}
+              
+              ${order.items.length > 3 ? `
+                <div class="more-items">
+                  +${order.items.length - 3} more items
+                </div>
+              ` : ''}
+            </div>
+            
+            <div class="order-footer">
+              <div class="order-total">
+                <span>Total:</span>
+                <span>₦${total.toLocaleString('en-NG')}</span>
+              </div>
+              
+              ${currentStatus === 'pending' ? `
+                <div class="refund-info">
+                  <i class="fas fa-shield-alt"></i>
+                  <p>Payment protected - Funds released only after delivery confirmation</p>
+                </div>
+              ` : currentStatus === 'delivered' ? `
+                <div class="refund-info" style="background-color: #d1f7c4;">
+                  <i class="fas fa-check-circle" style="color: #27ae60;"></i>
+                  <p style="color: #27ae60;">Order delivered successfully!</p>
+                </div>
+              ` : ''}
+              
+              <button class="order-details-btn" onclick="viewOrderDetails(${order.id})">Track Order</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function updateOrderStatus(orderId, newStatus) {
+      let orders = getUserOrders();
+      const orderIndex = orders.findIndex(order => order.id === orderId);
+      if (orderIndex !== -1) {
+        orders[orderIndex].status = newStatus;
+        localStorage.setItem('orders', JSON.stringify(orders));
+      }
+    }
+
+    function viewOrderDetails(orderId) {
+      // Store the order ID to view details
+      localStorage.setItem('viewOrderId', orderId);
+      window.location.href = 'order-details.html';
+    }
+
+    function filterOrders() {
+      const status = document.getElementById('statusFilter').value;
+      const orderCards = document.querySelectorAll('.order-card');
+
+      orderCards.forEach(card => {
+        if (status === 'all' || card.getAttribute('data-status') === status) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+
+
+    function logout() {
+      localStorage.removeItem('mstore_current_user');
+      window.location.href = 'main.html';
+    }
+
+    function goToCart() {
+      const cart = JSON.parse(localStorage.getItem('mstore_cart')) || [];
+      if (cart.length > 0) {
+        window.location.href = 'checkout.html';
+      } else {
+        alert('Your cart is empty!');
+      }
+    }
+  </script>
+</body>
+
+</html>

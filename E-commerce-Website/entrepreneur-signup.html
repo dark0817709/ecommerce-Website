@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Become a Seller | M.Store</title>
+  <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+  <link rel="stylesheet" href="css/entrepreneur-sign.css">
+</head>
+
+<body class="entrepreneur-body">
+  <header class="entrepreneur-header">
+    <div class="container">
+      <div class="header-logo">
+        <div class="cool-m-logo">M</div>
+          <div class="logo-text">
+            <h1 class="header-h1">M.Store</h1>
+            <p class="header-p">Curated Luxury Interiors</p>
+          </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-verification">
+    <section class="verification-section">
+      <h2>Entrepreneur Application</h2>
+      <p class="subtitle">Join our exclusive network of luxury interior designers</p>
+
+      <form id="verificationForm">
+        <div class="form-group">
+          <label for="businessName">Business Name</label>
+          <input type="text" id="businessName" required>
+        </div>
+
+        <div class="form-group">
+          <label for="businessEmail">Business Email</label>
+          <input type="email" id="businessEmail" required>
+        </div>
+
+        <div class="form-group">
+          <label for="businessAddress">Business Address</label>
+          <input type="text" id="businessAddress" required>
+        </div>
+
+        <div class="form-group">
+          <label for="businessId">Business ID (Upload)</label>
+          <div class="fake-upload">
+            <input type="file" id="businessIdFile" accept=".jpg,.jpeg,.png,.pdf" style="display: none;">
+            <button type="button" class="luxury-btn" onclick="document.getElementById('businessIdFile').click()">Choose File</button>
+            <span id="fileName">No file chosen</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="portfolio">Portfolio Link</label>
+          <input type="url" id="portfolio" placeholder="https://">
+        </div>
+
+        <button type="submit" class="luxury-btn submit-btn">Submit Application</button>
+
+        <div class="login-section"
+          style="margin-top: 30px; text-align: center; border-top: 1px solid var(--gold); padding-top: 20px;">
+          <p style="color: var(--gray-text); margin-bottom: 15px;">Already have a seller account?</p>
+          <button type="button" id="loginBtn" class="luxury-btn"
+            style="background: transparent; border: 2px solid var(--gold); color: var(--gold); padding: 10px; :hover{background-color: #D4AF37} ;">Login as Seller</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer class="luxury-footer">
+    
+  </footer>
+
+  <div id="reviewModal" class="modal">
+    <div class="modal-content luxury-modal">
+      <h3>Application Under Review</h3>
+      <p>Your application is being reviewed by our team. This process typically takes 20-30 minutes.</p>
+      <div class="loading-spinner"></div>
+      <p>You'll be redirected to your dashboard once approved.</p>
+    </div>
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script>
+    // Handle file selection
+    document.getElementById('businessIdFile').addEventListener('change', function(e) {
+      const fileName = e.target.files[0] ? e.target.files[0].name : 'No file chosen';
+      document.getElementById('fileName').textContent = fileName;
+    });
+
+    document.getElementById('verificationForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      // Get form data
+      const businessName = document.getElementById('businessName').value;
+      const businessEmail = document.getElementById('businessEmail').value;
+      const businessAddress = document.getElementById('businessAddress').value;
+      const portfolio = document.getElementById('portfolio').value;
+
+      // Create entrepreneur data
+      const entrepreneurData = {
+        businessName,
+        email: businessEmail,
+        businessEmail,
+        businessAddress,
+        portfolio,
+        role: 'entrepreneur',
+        dateApplied: new Date().toISOString()
+      };
+
+      // Save entrepreneur data
+      const entrepreneurs = JSON.parse(localStorage.getItem('mstore_entrepreneurs')) || [];
+      entrepreneurs.push(entrepreneurData);
+      localStorage.setItem('mstore_entrepreneurs', JSON.stringify(entrepreneurs));
+
+      // Set current entrepreneur session
+      localStorage.setItem('mstore_entrepreneur', JSON.stringify(entrepreneurData));
+      localStorage.setItem('mstore_current_user', JSON.stringify(entrepreneurData));
+
+      // Show review modal
+      document.getElementById('reviewModal').style.display = 'block';
+
+      setTimeout(() => {
+        window.location.href = 'enterpreneur-dashboard.html';
+      }, 15000); 
+    });
+
+    // Login button functionality
+    document.getElementById('loginBtn').addEventListener('click', function () {
+      // Hide review modal if it's showing
+      const reviewModal = document.getElementById('reviewModal');
+      if (reviewModal) {
+        reviewModal.style.display = 'none';
+      }
+      showLoginModal();
+    });
+
+    function showLoginModal() {
+      const modalHTML = `
+        <div id="loginModal" style="
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0,0,0,0.8);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 2000;
+        ">
+          <div style="
+            background: var(--purple);
+            padding: 40px;
+            border-radius: 10px;
+            border: 2px solid var(--gold);
+            max-width: 400px;
+            width: 90%;
+          ">
+            <h3 style="color: var(--gold); margin-bottom: 20px; text-align: center;">Seller Login</h3>
+            <form id="sellerLoginForm">
+              <div class="form-group">
+                <label for="loginEmail" style="color: var(--gold);">Email Address</label>
+                <input type="email" id="loginEmail" required style="
+                  width: 100%;
+                  padding: 12px;
+                  border: 1px solid var(--gold);
+                  border-radius: 5px;
+                  background: rgba(255,255,255,0.1);
+                  color: white;
+                  margin-bottom: 15px;
+                ">
+              </div>
+              <div class="form-group">
+                <label for="loginBusinessName" style="color: var(--gold);">Business Name</label>
+                <input type="text" id="loginBusinessName" required style="
+                  width: 100%;
+                  padding: 12px;
+                  border: 1px solid var(--gold);
+                  border-radius: 5px;
+                  background: rgba(255,255,255,0.1);
+                  color: white;
+                  margin-bottom: 20px;
+                ">
+              </div>
+              <div style="display: flex; gap: 10px;">
+                <button type="submit" class="luxury-btn" style="flex: 1; padding:10px;">Login</button>
+                <button type="button" onclick="closeLoginModal()" class="luxury-btn" style="
+                  flex: 1;
+                  background: transparent;
+                  border: 2px solid var(--gold);
+                  color: var(--gold);
+                ">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      `;
+
+      document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+      document.getElementById('sellerLoginForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const email = document.getElementById('loginEmail').value;
+        const businessName = document.getElementById('loginBusinessName').value;
+
+        // Check if entrepreneur exists
+        const entrepreneurs = JSON.parse(localStorage.getItem('mstore_entrepreneurs')) || [];
+        const entrepreneur = entrepreneurs.find(ent =>
+          ent.email === email && ent.businessName === businessName
+        );
+
+        if (entrepreneur) {
+          localStorage.setItem('mstore_entrepreneur', JSON.stringify(entrepreneur));
+          localStorage.setItem('mstore_current_user', JSON.stringify(entrepreneur));
+          closeLoginModal();
+          alert('Login successful! Welcome back, ' + entrepreneur.businessName);
+          window.location.href = 'enterpreneur-dashboard.html';
+        } else {
+          alert('Invalid credentials. Please check your email and business name.');
+        }
+      });
+    }
+
+    function closeLoginModal() {
+      const modal = document.getElementById('loginModal');
+      if (modal) {
+        modal.remove();
+      }
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+      const reviewModal = document.getElementById('reviewModal');
+      if (event.target === reviewModal) {
+        reviewModal.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>

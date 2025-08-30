@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - M.Store</title>
+    <link rel="icon" type="image/svg+xml" href="../images/favicon.svg">
+    <link rel="stylesheet" href="../css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .about-hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../images/banner1.avif');
+            background-size: cover;
+            background-position: center;
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .about-content {
+            max-width: auto;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            background: #f9f9f9;
+        }
+        .story-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 4rem;
+            align-items: center;
+        }
+        .story-text h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--purple);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .story-text p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        .value-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .value-card:hover {
+            transform: translateY(-5px);
+        }
+        .value-icon {
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        @media (max-width: 768px) {
+            .story-section {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-container">
+            <div class="header-logo">
+                <div class="cool-m-logo">M</div>
+                <div class="header-text">
+                    <h1>M.Store</h1>
+                    <p>Premium Marketplace</p>
+                </div>
+            </div>
+            <nav class="desktop-nav">
+                <ul class="nav-list">
+                    <li><a href="../main.html">Home</a></li>
+                    <li><a href="#">Products</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <section class="about-hero">
+        <div class="hero-content">
+            <h1 style="font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--gold); margin-bottom: 1rem;">Our Story</h1>
+            <p style="font-size: 1.2rem; max-width: 600px;">Crafting exceptional experiences through curated luxury</p>
+        </div>
+    </section>
+
+    <div class="about-content">
+        <div class="story-section">
+            <div class="story-text">
+                <h2>Where Luxury Meets Innovation</h2>
+                <p>Founded in 2023, M.Store emerged from a simple vision: to create a marketplace where exceptional quality meets unparalleled service. We believe that luxury isn't just about price—it's about craftsmanship, attention to detail, and the story behind every piece.</p>
+                <p>Our curated collections represent the finest artisans and designers from around the world, each piece selected for its unique character and exceptional quality. From modernist furniture to royal heritage pieces, we bring you items that don't just fill a space—they transform it.</p>
+            </div>
+            <div style="background: linear-gradient(135deg, var(--gold), #B8941F); height: 300px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-crown" style="font-size: 4rem; color: white;"></i>
+            </div>
+        </div>
+
+        <div class="values-grid">
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="fas fa-gem"></i>
+                </div>
+                <h3 style="font-family: 'Playfair Display', serif; color: var(--purple); margin-bottom: 1rem;">Premium Quality</h3>
+                <p>Every item is handpicked for its exceptional craftsmanship and enduring beauty.</p>
+            </div>
+            
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3 style="font-family: 'Playfair Display', serif; color: var(--purple); margin-bottom: 1rem;">Expert Curation</h3>
+                <p>Our team of design experts carefully selects each piece to ensure it meets our high standards.</p>
+            </div>
+            
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="fas fa-shipping-fast"></i>
+                </div>
+                <h3 style="font-family: 'Playfair Display', serif; color: var(--purple); margin-bottom: 1rem;">White-Glove Service</h3>
+                <p>From purchase to delivery, we provide personalized service that exceeds expectations.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="luxury-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3 class="footer-title">Products</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">All Products</a></li>
+                        <li><a href="#">Designers</a></li>
+                        <li><a href="#">Collections</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3 class="footer-title">About Us</h3>
+                    <ul class="footer-links">
+                        <li><a href="about.html">Our Story</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3 class="footer-title">Help</h3>
+                    <ul class="footer-links">
+                        <li><a href="FAQ.html">FAQ</a></li>
+                        <li><a href="policy.html">Privacy Policy</a></li>
+                        <li><a href="Terms.html">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - M.Store</title>
+    <link rel="icon" type="image/svg+xml" href="../images/favicon.svg">
+    <link rel="stylesheet" href="../css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .faq-hero {
+            background: linear-gradient(135deg, var(--purple), var(--blue));
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+        .faq-container {
+            max-width: auto;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            background: #f9f9f9;
+        }
+        .faq-item {
+            background: white;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .faq-question {
+            background: var(--purple);
+            color: white;
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s ease;
+        }
+        .faq-question:hover {
+            background: var(--blue);
+        }
+        .faq-question h3 {
+            font-family: 'Playfair Display', serif;
+            margin: 0;
+            font-size: 1.2rem;
+        }
+        .faq-icon {
+            color: var(--gold);
+            transition: transform 0.3s ease;
+        }
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .faq-answer.active {
+            padding: 1.5rem;
+            max-height: 200px;
+        }
+        .faq-answer p {
+            color: #666;
+            line-height: 1.6;
+            margin: 0;
+        }
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+        .contact-section {
+            background: var(--purple);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-container">
+            <div class="header-logo">
+                <div class="cool-m-logo">M</div>
+                <div class="header-text">
+                    <h1>M.Store</h1>
+                    <p>Premium Marketplace</p>
+                </div>
+            </div>
+            <nav class="desktop-nav">
+                <ul class="nav-list">
+                    <li><a href="../main.html">Home</a></li>
+                    <li><a href="#">Products</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <section class="faq-hero">
+        <h1 style="font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--gold); margin-bottom: 1rem;">Frequently Asked Questions</h1>
+        <p style="font-size: 1.2rem; opacity: 0.9;">Everything you need to know about M.Store</p>
+    </section>
+
+    <div class="faq-container">
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+                <h3>What makes M.Store different from other marketplaces?</h3>
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                <p>M.Store specializes in curated luxury items with a focus on exceptional quality and craftsmanship. Every product is handpicked by our expert team, ensuring you receive only the finest pieces that combine beauty, functionality, and lasting value.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+                <h3>How do you ensure product authenticity?</h3>
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                <p>We work directly with verified artisans, designers, and authorized dealers. Each item comes with a certificate of authenticity, and our team conducts thorough quality inspections before any product reaches our customers.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+                <h3>What is your shipping and delivery policy?</h3>
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                <p>We offer white-glove delivery service for all items. Delivery times vary by location and product, typically 7-14 business days. Large furniture pieces include professional setup and installation at no additional cost.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+                <h3>Can I return or exchange items?</h3>
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Yes, we offer a 30-day return policy for most items in original condition. Custom or personalized pieces may have different return terms. Contact our concierge team for specific return procedures.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+                <h3>Do you offer financing options?</h3>
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                <p>We partner with premium financing companies to offer flexible payment plans for qualified customers. Options include 6, 12, and 24-month terms with competitive rates for purchases over $1,000.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+                <h3>How can I become a seller on M.Store?</h3>
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                <p>We carefully select our sellers based on quality, craftsmanship, and brand alignment. Click "Become a Seller" to submit your application. Our team reviews each application and will contact qualified candidates within 5-7 business days.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+                <h3>Do you ship internationally?</h3>
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Currently, we ship to select international destinations. Shipping costs and delivery times vary by location. Contact our concierge team for specific international shipping information and customs requirements.</p>
+            </div>
+        </div>
+    </div>
+
+    <section class="contact-section">
+        <h2 style="font-family: 'Playfair Display', serif; color: var(--gold); margin-bottom: 1rem;">Still Have Questions?</h2>
+        <p style="margin-bottom: 2rem;">Our concierge team is here to help with personalized assistance</p>
+        <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
+            <div>
+                <i class="fas fa-envelope" style="color: var(--gold); font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
+                <p>concierge@mstore.com</p>
+            </div>
+            <div>
+                <i class="fas fa-phone" style="color: var(--gold); font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
+                <p>+234 (903) 143-8648</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="luxury-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3 class="footer-title">Products</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">All Products</a></li>
+                        <li><a href="#">Designers</a></li>
+                        <li><a href="#">Collections</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3 class="footer-title">About Us</h3>
+                    <ul class="footer-links">
+                        <li><a href="about.html">Our Story</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3 class="footer-title">Help</h3>
+                    <ul class="footer-links">
+                        <li><a href="FAQ.html">FAQ</a></li>
+                        <li><a href="policy.html">Privacy Policy</a></li>
+                        <li><a href="Terms.html">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleFAQ(element) {
+            const faqItem = element.parentElement;
+            const answer = faqItem.querySelector('.faq-answer');
+            
+            // Close all other FAQ items
+            document.querySelectorAll('.faq-item').forEach(item => {
+                if (item !== faqItem) {
+                    item.classList.remove('active');
+                    item.querySelector('.faq-answer').classList.remove('active');
+                }
+            });
+            
+            // Toggle current FAQ item
+            faqItem.classList.toggle('active');
+            answer.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
